@@ -1,0 +1,67 @@
+syntax = "proto3";
+import "common.proto";
+package erp;
+
+service LeadService {
+  rpc LeadGetDetails(GetLeadRecords) returns (ViewLeadResponse) {}
+  rpc AddLead(stream LeadInfo) returns (stream InsertionCompleteResponse) {}
+  rpc UpdateLead(LeadInfo) returns (UpdationCompleteResponse) {}
+  rpc RemoveLead(LeadIdRequest) returns (RemovalCompleteResponse) {}
+  rpc GetLeadRecord (LeadIdRequest) returns (LeadInfo) {}
+  rpc GetNewLeadID (getNewLeadId) returns (NewLeadID) {}
+}
+
+
+enum Status {
+  LEAD = 0;
+  OPEN = 1;
+  REPLIED = 2;
+  OPPORTUNITY = 3;
+  QUOTATION = 4;
+  LOST_QUOTATION = 5;
+  INTERESTED = 6;
+  CONVERTED = 7;
+  DO_NOT_CONVERT = 8;
+}
+
+message getNewLeadId {
+
+}
+
+message NewLeadID {
+  int32 newLeadID = 1;
+}
+
+
+message LeadIdRequest {
+  int32 lead_ID = 1;
+}
+
+message LeadName {
+  string lead_name = 1;
+}
+
+message ViewLeadResponse {
+    int32 totalNumberOfLeads = 1;    
+    repeated LeadInfo leads = 2;    
+}
+
+message GetLeadRecords {
+  int32 startingPosition = 1;
+  int32 endingPosition = 2;
+}
+
+message LeadInfo{
+  int32 id = 1;
+  string first_name = 2;   
+  string last_name = 3;   
+  string job_title = 4;
+  string email = 5;
+  string contact_no = 6;
+  string organization_name = 7;
+  string organization_territory = 8;
+  Gender gender = 9;
+  Status status = 10;
+  Salutation salutation = 11;
+  optional string middle_name = 12;
+}
